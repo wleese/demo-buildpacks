@@ -1,0 +1,28 @@
+services:
+  demo-buildpacks:
+    environment:
+      - CNB_PLATFORM_API=0.14
+    image: "paketobuildpacks/builder-jammy-full"
+    user: root # necessary to run update-ca-certificates
+    # below we:
+    # - sleep just in case we're quicker than the registry (unlikely)
+    # - update our CA certificates to include our self signed one for the docker registry
+    # - cd into our code repo
+    # - run the creator command
+    command: >
+      sh -c "sleep 2s &&
+             update-ca-certificates &&
+             cd /data &&
+             /cnb/lifecycle/creator -app=. -log-level=debug docker-registry:443/demo-buildpacks:latest"
+    volumes:
+      - ./certs:/usr/local/share/ca-certificates # pre-created certificates for our docker regsitry
+      - ./env:/platform/env # allows us to provide e.g. lifecycle commands with 'environment variables' to tune building
+      - .:/data # this code repo, to allow building
+  docker-registry:
+    image: "registry:2"
+    environment:
+      - REGISTRY_HTTP_ADDR=0.0.0.0:443
+      - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt # pre-created for "docker-registry" hostname
+      - REGISTRY_HTTP_TLS_KEY=/certs/domain.key
+    volumes:
+      - ./certs:/certs
