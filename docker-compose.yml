@@ -9,11 +9,13 @@ services:
     # - update our CA certificates to include our self signed one for the docker registry
     # - cd into our code repo
     # - run the creator command
+    # - cat the mvn.log log to the console, although this doesn't seem to provide any useful log output at the moment.
     command: >
       sh -c "sleep 2s &&
              update-ca-certificates &&
              cd /data &&
-             /cnb/lifecycle/creator -app=. -log-level=debug docker-registry:443/demo-buildpacks:latest"
+             /cnb/lifecycle/creator -app=. -log-level=debug docker-registry:443/demo-buildpacks:latest;
+             cat ./mvn.log;"
     volumes:
       - ./certs:/usr/local/share/ca-certificates # pre-created certificates for our docker regsitry
       - ./env:/platform/env # allows us to provide e.g. lifecycle commands with 'environment variables' to tune building
