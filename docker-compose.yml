@@ -23,6 +23,8 @@ services:
       - .:/data # this code repo, to allow building
   docker-registry:
     image: "registry:2"
+    ports:
+      - "5443:443" # expose so we can pull from our host machine
     environment:
       - REGISTRY_HTTP_ADDR=0.0.0.0:443
       - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt # pre-created for "docker-registry" hostname

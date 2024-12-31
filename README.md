@@ -16,3 +16,9 @@ Running these commands should result in a succesfully pushed container image to 
 ```
 docker compose up
 ```
+
+After the build process has completed, we should be able to pull the docker container image from our local registry with:
+
+```
+docker pull localhost:5443/demo-buildpacks:latest
+```
