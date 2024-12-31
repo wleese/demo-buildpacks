@@ -16,7 +16,7 @@ services:
              update-ca-certificates &&
              cp -R /data /app-repo &&
              chown -R cnb /app-repo &&
-             cd /app-repo && sudo --preserve-env --set-home -u cnb /cnb/lifecycle/creator -app=. docker-registry:443/demo-buildpacks:latest:
+             cd /app-repo && sudo --preserve-env --set-home -u cnb /cnb/lifecycle/creator -app=. docker-registry:443/demo-buildpacks:latest"
     volumes:
       - ./certs:/usr/local/share/ca-certificates # pre-created certificates for our docker regsitry
       - ./env:/platform/env # allows us to provide e.g. lifecycle commands with 'environment variables' to tune building
