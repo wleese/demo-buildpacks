@@ -14,7 +14,8 @@ Everything has been put into docker-compose.yml.
 Running these commands should result in a succesfully pushed container image to our local Docker registry, courtesy of the `creator` CLI command and the various buildpacks in Paketo's `builder` container image.
 
 ```
-docker compose up
+docker compose start
+docker compose logs demo-buildpacks -f
 ```
 
 After the build process has completed, we should be able to pull the docker container image from our local registry with:
